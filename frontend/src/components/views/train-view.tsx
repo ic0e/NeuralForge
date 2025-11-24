@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from "react";
 import { LineChart } from '@mui/x-charts';
-import type { Layer } from '../../types/model'; 
-import { useModel } from '../../contexts/ModelContext'; 
+import type { Layer } from '../../types/model';
+import { useModel } from '../../contexts/ModelContext';
 //@ts-ignore
 import Tooltip from '../dashboard/Reuseable/Tooltip';
 
@@ -167,25 +167,89 @@ export default function TrainView() {
             <p className="bg-purple-500/20 text-blue-200 font-mono text-sm p-0.5 mt-1.5 border-purple-800 rounded-md text-center">Neural Network Layers: {layers.length}</p>
           </div>
 
-          {/* Config inputs unchanged */}
-          {['epochs', 'batchSize', 'learningRate'].map((key, i) => (
-            <div style={{ marginBottom: '10px' }} key={i}>
-              <label className="block text-xs font-medium text-gray-400 capitalize">{key}:
-                <input
-                  type="number"
-                  name={key}
-                  value={config[key as keyof typeof config]}
-                  onChange={handleConfigChange}
-                  disabled={isTraining}
-                  className="black-purple-hover"
-                />
-              </label>
-            </div>
-          ))}
+          {/* Config inputs */}
+          <div style={{ marginBottom: "10px" }}>
+            <label className="block text-xs font-medium text-gray-400 capitalize">
+              Epochs:
+              <Tooltip
+                title="Epochs"
+                type="Tuning Setting"
+                explanation="One full cycle where the entire training dataset passes through the network (one forward and one backward pass)."
+                smaller="Too few epochs means underfitting (the model hasn't learned enough patterns)."
+                bigger="Too many epochs means overfitting (the model memorizes the training data, hurting performance on new data)."
+                recommendation="Start with 5-10. If the model is learning well, increase for better results. If stuck, configure the learning rate or architecture."
+                position="right"
+              />
+              <input
+                type="number"
+                name="epochs"
+                value={config.epochs}
+                onChange={handleConfigChange}
+                disabled={isTraining}
+                className="black-purple-hover"
+              />
+            </label>
+          </div>
+
+          <div style={{ marginBottom: "10px" }}>
+            <label className="block text-xs font-medium text-gray-400 capitalize">
+              Batch Size:
+              <Tooltip
+                title="Batch Size"
+                type="Hyperparameter"
+                explanation="The number of data samples processed at one time before the model's internal parameters (weights) are updated."
+                smaller="A small batch size (e.g., 32) can lead to faster training steps and better generalization, but training can be less stable."
+                bigger="A large batch size (e.g., 256) offers stable training and uses hardware efficiently, but it can lead to slower progress and worse generalization."
+                recommendation="Start with 32 or 64. Increase it if training is too slow or decrease it if performance plateaus."
+                position="right"
+              />
+              <input
+                type="number"
+                name="batchSize"
+                value={config.batchSize}
+                onChange={handleConfigChange}
+                disabled={isTraining}
+                className="black-purple-hover"
+              />
+            </label>
+          </div>
+
+          <div style={{ marginBottom: "10px" }}>
+            <label className="block text-xs font-medium text-gray-400 capitalize">
+              Learning Rate:
+              <Tooltip
+                title="Learning Rate"
+                type="Hyperparameter"
+                explanation="This is how much the network edits its weights upon error. It controls how quickly the network learns."
+                smaller="A tiny learning rate means the network learns too slowly and may get stuck in a poor solution."
+                bigger="A large learning rate causes the network to overshoot the optimal solution, leading to unstable training and a failure to converge."
+                recommendation="Start with a small value (e.g., 0.001) and use optimizers like Adam, which adjust the rate automatically."
+                position="right"
+              />
+              <input
+                type="number"
+                name="learningRate"
+                value={config.learningRate}
+                onChange={handleConfigChange}
+                disabled={isTraining}
+                className="black-purple-hover"
+              />
+            </label>
+          </div>
+
 
           <div style={{ marginBottom: '20px' }}>
             <label className="block text-xs font-medium text-gray-400">
               Optimizer:
+              <Tooltip
+                title="Optimizer (The Guide)"
+                type="Core Component"
+                explanation="The optimizer is the algorithm that adjusts the network's weights and biases (the parameters) based on the calculated error (loss). It determines *how* the learning rate is applied to make the model better."
+                smaller="If you choose **SGD**, the network takes uniform, small steps. This is simple, but slow and can get stuck."
+                bigger="If you choose **Adam**, the network uses adaptive steps (like having individual learning rates for each weight), making it much faster and more effective at finding the optimal solution."
+                recommendation="**Adam** is the modern default and is highly recommended for most problems due to its excellent combination of speed and stability. **SGD** is best for very simple models or research."
+                position="right"
+              />
               <select name="optimizer" value={config.optimizer} onChange={handleConfigChange} disabled={isTraining} className="black-purple-hover">
                 <option>Adam</option>
                 <option>SGD</option>
@@ -195,16 +259,16 @@ export default function TrainView() {
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-             <label className="flex items-center space-x-2 cursor-pointer">
-               <input 
-                 type="checkbox" 
-                 checked={demoMode} 
-                 onChange={(e) => setDemoMode(e.target.checked)}
-                 disabled={isTraining}
-                 className="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out"
-               />
-               <span className="text-xs font-medium text-gray-400">Demo Mode (Fast Training)</span>
-             </label>
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={demoMode}
+                onChange={(e) => setDemoMode(e.target.checked)}
+                disabled={isTraining}
+                className="form-checkbox h-4 w-4 text-purple-600 transition duration-150 ease-in-out"
+              />
+              <span className="text-xs font-medium text-gray-400">Demo Mode (Fast Training)</span>
+            </label>
           </div>
 
           <button onClick={() => { clearGraph(); startTraining(); }} disabled={isTraining} className="btn-transparent-white">
@@ -232,46 +296,46 @@ export default function TrainView() {
               <h3 className="underline-title-text">Training Chart</h3>
               <div style={{ background: '#0b1220', padding: '12px', borderRadius: 8 }} className="text-white">
                 <LineChart
-                series={[
-                  { data: chartLoss, label: 'Loss', yAxisId: 'leftAxisId'},
-                  { data: chartAcc, label: 'Accuracy', yAxisId: 'rightAxisId' },
-                ]}
-                xAxis={[{ scaleType: 'point', data: chartLoss.map((_, i) => `E${i + 1}`) }]}
-                yAxis={[
-                  { id: 'leftAxisId', width: 50 },
-                  { id: 'rightAxisId', position: 'right' },
-                ]}
-                slotProps={{
-                  legend: {
-                    sx: {
-                      fontSize: 14,
-                      color: 'white'
+                  series={[
+                    { data: chartLoss, label: 'Loss', yAxisId: 'leftAxisId' },
+                    { data: chartAcc, label: 'Accuracy', yAxisId: 'rightAxisId' },
+                  ]}
+                  xAxis={[{ scaleType: 'point', data: chartLoss.map((_, i) => `E${i + 1}`) }]}
+                  yAxis={[
+                    { id: 'leftAxisId', width: 50 },
+                    { id: 'rightAxisId', position: 'right' },
+                  ]}
+                  slotProps={{
+                    legend: {
+                      sx: {
+                        fontSize: 14,
+                        color: 'white'
+                      }
                     }
-                  }
-                }}
-                sx={{ 
-                  height: 350,
-                  // More specific selectors
-                  '& .MuiChartsAxis-root .MuiChartsAxis-tickLabel': {
-                    fill: 'white',
-                  },
-                  '& .MuiChartsAxis-root .MuiChartsAxis-label': {
-                    fill: 'white',
-                  },
-                  '& .MuiChartsAxis-root line': {
-                    stroke: 'white',
-                  },
-                  '& .MuiChartsAxis-root .MuiChartsAxis-line': {
-                    stroke: 'white',
-                  },
-                  '& .MuiChartsAxis-root .MuiChartsAxis-tick': {
-                    stroke: 'white',
-                  },
-                  '& .MuiChartsAxis-root text': {
-                    fill: 'white',
-                  },
-                }}
-              />
+                  }}
+                  sx={{
+                    height: 350,
+                    // More specific selectors
+                    '& .MuiChartsAxis-root .MuiChartsAxis-tickLabel': {
+                      fill: 'white',
+                    },
+                    '& .MuiChartsAxis-root .MuiChartsAxis-label': {
+                      fill: 'white',
+                    },
+                    '& .MuiChartsAxis-root line': {
+                      stroke: 'white',
+                    },
+                    '& .MuiChartsAxis-root .MuiChartsAxis-line': {
+                      stroke: 'white',
+                    },
+                    '& .MuiChartsAxis-root .MuiChartsAxis-tick': {
+                      stroke: 'white',
+                    },
+                    '& .MuiChartsAxis-root text': {
+                      fill: 'white',
+                    },
+                  }}
+                />
                 <span className="flex">
                   <p className="text-sm font-semibold mr-30">Loss: {chartLoss.length ? Number(chartLoss[chartLoss.length - 1]).toFixed(2) : "—"}</p>
                   <p className="text-sm font-semibold">Accuracy: {chartAcc.length ? (Number(chartAcc[chartAcc.length - 1]) * 100).toFixed(2) + "%" : "—"}</p>
