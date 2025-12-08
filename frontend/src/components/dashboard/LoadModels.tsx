@@ -155,6 +155,16 @@ export default function LoadModels() {
       });
 
       const name = savedModels.find(m => m.id === modelId)?.name;
+
+      // Update local state
+      setSavedModels(prev =>
+        prev.map(model =>
+          model.id === modelId
+            ? { ...model, layers: layers, updatedAt: new Date() } // Optimistic update
+            : model
+        )
+      );
+
       setMessage(`Model "${name}" overwritten successfully!`);
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
@@ -228,9 +238,8 @@ export default function LoadModels() {
 
       {message && (
         <p
-          className={`mb-4 text-sm ${
-            message.includes('Error') ? 'text-red-400' : 'text-green-400'
-          }`}
+          className={`mb-4 text-sm ${message.includes('Error') ? 'text-red-400' : 'text-green-400'
+            }`}
         >
           {message}
         </p>
