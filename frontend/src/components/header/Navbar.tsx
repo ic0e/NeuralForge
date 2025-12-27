@@ -25,7 +25,7 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
                    border-b border-white/5
                    transition-all duration-300 ease-out
                    hover:bg-black/60 hover:border-white/10">
-      
+
       <div className="max-w-6xl lg:max-w-7xl xl:max-w-full mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
           {/* Brand */}
@@ -63,9 +63,9 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
               <a
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium
                            transition-all duration-300 ease-out
-                           ${currentPage === 'loggeduser' 
-                             ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]' 
-                             : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+                           ${currentPage === 'loggeduser'
+                    ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
                 href="#"
                 onClick={(e) => handleNavClick('loggeduser', e)}
               >
@@ -76,9 +76,9 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             <a
               className={`px-3 py-1.5 rounded-lg text-sm font-medium
                          transition-all duration-300 ease-out
-                         ${currentPage === 'home' 
-                           ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]' 
-                           : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+                         ${currentPage === 'home'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
               href="#"
               onClick={(e) => handleNavClick('home', e)}
             >
@@ -88,24 +88,37 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             <a
               className={`px-3 py-1.5 rounded-lg text-sm font-medium
                          transition-all duration-300 ease-out
-                         ${currentPage === 'dashboard' 
-                           ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]' 
-                           : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+                         ${currentPage === 'dashboard'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
               href="#"
               onClick={(e) => handleNavClick('dashboard', e)}
             >
               Dashboard
             </a>
 
+            {userRole === 'admin' && (
+              <a
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium
+                           transition-all duration-300 ease-out
+                           ${currentPage === 'adminpanel'
+                    ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                    : 'text-purple-400 hover:text-purple-300 hover:bg-white/5 hover:shadow-[0_0_8px_rgba(251,191,36,0.15)]'}`}
+                href="#"
+                onClick={(e) => handleNavClick('adminpanel', e)}
+              >
+                Admin Panel
+              </a>
+            )}
+
             {/* AUTH DROPDOWN */}
 
             <div className="relative">
               <button
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2 ${
-                  isDropdownOpen
-                    ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2 ${isDropdownOpen
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'
+                  }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <div className="flex items-center gap-1.5 max-w-[140px] truncate">
@@ -127,9 +140,8 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
                 </div>
 
                 <svg
-                  className={`w-3.5 h-3.5 transition-transform duration-300 ease-out ${
-                    isDropdownOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ease-out ${isDropdownOpen ? 'rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -185,16 +197,6 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
                 </div>
               )}
             </div>
-
-
-
-            <a
-              className="px-3 py-1.5 rounded-lg text-sm font-medium
-                         text-gray-600 cursor-not-allowed opacity-50"
-              href="#"
-            >
-              Disabled
-            </a>
           </div>
         </div>
 
@@ -205,9 +207,9 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             <a
               className={`block px-3 py-2 rounded-lg text-sm font-medium
                          transition-all duration-300 ease-out
-                         ${currentPage === 'home' 
-                           ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]' 
-                           : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+                         ${currentPage === 'home'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
               href="#"
               onClick={(e) => handleNavClick('home', e)}
             >
@@ -217,14 +219,29 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             <a
               className={`block px-3 py-2 rounded-lg text-sm font-medium
                          transition-all duration-300 ease-out
-                         ${currentPage === 'dashboard' 
-                           ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]' 
-                           : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+                         ${currentPage === 'dashboard'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
               href="#"
               onClick={(e) => handleNavClick('dashboard', e)}
             >
               Dashboard
             </a>
+
+            {/* Admin Panel - Only for admins (mobile) */}
+            {userRole === 'admin' && (
+              <a
+                className={`block px-3 py-2 rounded-lg text-sm font-medium
+                           transition-all duration-300 ease-out
+                           ${currentPage === 'adminpanel'
+                    ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                    : 'text-amber-400 hover:text-amber-300 hover:bg-white/5 hover:shadow-[0_0_8px_rgba(251,191,36,0.15)]'}`}
+                href="#"
+                onClick={(e) => handleNavClick('adminpanel', e)}
+              >
+                Admin Panel
+              </a>
+            )}
 
             {currentUser ? (
               <>
@@ -266,22 +283,14 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
                 </a>
               </>
             )}
-
-            <a
-              className="block px-3 py-2 rounded-lg text-sm font-medium
-                         text-gray-600 cursor-not-allowed opacity-50"
-              href="#"
-            >
-              Disabled
-            </a>
           </div>
         )}
       </div>
 
       {/* Close dropdown overlay */}
       {isDropdownOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
+        <div
+          className="fixed inset-0 z-40"
           onClick={() => setIsDropdownOpen(false)}
         />
       )}
