@@ -15,7 +15,7 @@ function UserHomePage() {
   const networkOptions = [
     {
       id: 1,
-      title: "Image Recognizer NN",
+      title: "Image Recognizer CNN",
       description: "Build convolutional neural networks for image classification and object detection. Perfect for computer vision projects.",
       status: "active",
       icon: "🖼️",
@@ -24,7 +24,7 @@ function UserHomePage() {
     {
       id: 2,
       title: "Text Prediction NN (placeholder)",
-      description: "Create recurrent neural networks for text generation and prediction. Ideal for NLP applications.",
+      description: "Decorative placeholder, unlikely feature.",
       status: "coming-soon",
       icon: "📝",
       href: "#"
