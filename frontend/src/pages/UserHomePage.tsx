@@ -8,6 +8,10 @@ function UserHomePage() {
     setIsVisible(true);
   }, []);
 
+  useEffect(() => {
+    document.title = 'Home - NeuralForge';
+  }, []);
+
   const networkOptions = [
     {
       id: 1,
@@ -33,7 +37,7 @@ function UserHomePage() {
       <div className="">
         <Orb />
       </div>
-      
+
       {/* Content with higher z-index - moved to left */}
       <div className="max-w-2xl mx-0 relative z-10">
         {/* Header - aligned left */}
@@ -51,20 +55,17 @@ function UserHomePage() {
           {networkOptions.map((option, idx) => (
             <div
               key={option.id}
-              className={`bg-gradient-to-b from-gray-900/50 to-transparent border rounded-xl p-6 transition-all duration-300 cursor-pointer ${
-                option.status === 'active' 
-                  ? 'border-gray-700 hover:border-purple-500 hover:shadow-lg hover:shadow-blue-500/20' 
-                  : 'border-gray-800 opacity-60'
-              } ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
+              className={`bg-gradient-to-b from-gray-900/50 to-transparent border rounded-xl p-6 transition-all duration-300 cursor-pointer ${option.status === 'active'
+                ? 'border-gray-700 hover:border-purple-500 hover:shadow-lg hover:shadow-blue-500/20'
+                : 'border-gray-800 opacity-60'
+                } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
               style={{ transitionDelay: `${200 + idx * 100}ms` }}
               onClick={() => option.status === 'active' && (window.location.href = option.href)}
             >
               <div className="flex items-start gap-4">
-                <div className={`text-2xl p-3 rounded-lg ${
-                  option.status === 'active' ? 'bg-blue-500/20' : 'bg-gray-700/50'
-                }`}>
+                <div className={`text-2xl p-3 rounded-lg ${option.status === 'active' ? 'bg-blue-500/20' : 'bg-gray-700/50'
+                  }`}>
                   {option.icon}
                 </div>
                 <div className="flex-1">
@@ -80,7 +81,7 @@ function UserHomePage() {
                     {option.description}
                   </p>
                   {option.status === 'active' ? (
-                    <a 
+                    <a
                       href={option.href}
                       className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
                     >
@@ -98,10 +99,9 @@ function UserHomePage() {
         </div>
 
         {/* Quick Stats - aligned left */}
-        <div 
-          className={`border-t border-gray-800 pt-12 transition-all duration-1000 ${
-            isVisible ? 'opacity-100' : 'opacity-0'
-          }`}
+        <div
+          className={`border-t border-gray-800 pt-12 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
           style={{ transitionDelay: '500ms' }}
         >
           <div className="grid grid-cols-3 gap-8 text-left">

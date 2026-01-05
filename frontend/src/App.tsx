@@ -9,7 +9,7 @@ import { ModelProvider } from './contexts/ModelContext';
 //@ts-ignore
 import UserHomePage from './pages/UserHomePage';
 import { useState, useEffect } from 'react';
-import ProfilePage from './components/auth/profile/index'; 
+import ProfilePage from './components/auth/profile/index';
 //@ts-ignore
 import { AuthProvider, useAuth } from './contexts/authContext/index';
 //@ts-ignore
@@ -33,6 +33,21 @@ function AppContent() {
     else setCurrentPage('loggeduser');
   }, [currentUser]); // Add currentUser as dependency
 
+  // update the document title every time you switch the page
+  useEffect(() => {
+    const pageTitles: Record<string, string> = {
+      dashboard: 'Dashboard - NeuralForge',
+      login: 'Login - NeuralForge',
+      register: 'Register - NeuralForge',
+      signout: 'Sign Out - NeuralForge',
+      profile: 'Profile - NeuralForge',
+      loggeduser: 'Home - NeuralForge',
+      adminpanel: 'Admin Panel - NeuralForge',
+      home: 'NeuralForge',
+    };
+    document.title = pageTitles[currentPage] || 'NeuralForge';
+  }, [currentPage]);
+
   // Update URL when page changes
   const navigate = (page: string) => {
     setCurrentPage(page);
@@ -41,7 +56,7 @@ function AppContent() {
   };
 
   const renderPage = () => {
-    switch(currentPage) {
+    switch (currentPage) {
       case 'dashboard':
         return <Dashboard />;
       case 'login':

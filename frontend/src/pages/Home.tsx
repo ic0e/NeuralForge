@@ -12,8 +12,12 @@ function TextType({ text, typingSpeed = 75, pauseDuration = 1500, showCursor = t
   const [textArrayIndex, setTextArrayIndex] = useState(0);
 
   useEffect(() => {
+    document.title = 'Landing - NeuralForge';
+  }, []);
+
+  useEffect(() => {
     const currentText = text[textArrayIndex];
-    
+
     const timer = setTimeout(() => {
       if (!isDeleting) {
         if (currentIndex < currentText.length) {
@@ -75,7 +79,7 @@ function HomePage() {
             {/* Hero Section */}
             <div className={`pointer-events-none transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <h1 className="text-5xl font-bold mb-6 leading-tight">
-                <TextType 
+                <TextType
                   text={["Welcome to Neuralforge!", "Build and deploy ML models with ease."]}
                   typingSpeed={75}
                   pauseDuration={1500}
@@ -83,7 +87,7 @@ function HomePage() {
                   cursorCharacter="_"
                 />
               </h1>
-              
+
               <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl leading-relaxed pointer-events-none">
                 A modern platform for machine learning engineers of all kinds who want to build and prototype models faster than ever before.
               </p>
@@ -94,9 +98,8 @@ function HomePage() {
               {features.map((feature, idx) => (
                 <div
                   key={idx}
-                  className={`bg-gradient-to-b from-gray-900/90 to-transparent border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-all duration-300 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                  }`}
+                  className={`bg-gradient-to-b from-gray-900/90 to-transparent border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
                   style={{ transitionDelay: `${200 + idx * 100}ms` }}
                 >
                   <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
@@ -106,10 +109,9 @@ function HomePage() {
             </div>
 
             {/* Stats Section */}
-            <div 
-              className={`border-t border-gray-800 pt-12 pb-20 transition-all duration-1000 relative ${
-                isVisible ? 'opacity-100' : 'opacity-0'
-              }`}
+            <div
+              className={`border-t border-gray-800 pt-12 pb-20 transition-all duration-1000 relative ${isVisible ? 'opacity-100' : 'opacity-0'
+                }`}
               style={{ transitionDelay: '500ms' }}
             >
               <div className="flex gap-4 mb-20 z-20">
@@ -137,10 +139,9 @@ function HomePage() {
             </div>
 
             {/* CTA Section */}
-            <div 
-              className={`text-center pb-20 transition-all duration-1000 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
+            <div
+              className={`text-center pb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
               style={{ transitionDelay: '700ms' }}
             >
               <h2 className="text-3xl font-bold mb-4">Ready to build something amazing?</h2>
@@ -149,13 +150,13 @@ function HomePage() {
                 <button className="bg-gradient-to-r from-blue-600 to-purple-600 px-10 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg">
                   Sign up for free.
                 </button>
-              </a> 
+              </a>
             </div>
           </div>
         </div>
       </AuthProvider>
     </>
-    
+
   );
 }
 

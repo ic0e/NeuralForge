@@ -29,13 +29,17 @@ export default function Dashboard() {
     }
   }, [tab]);
 
+  useEffect(() => {
+    document.title = 'Dashboard - NeuralForge';
+  }, []);
+
 
   return (
-   <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#0f172a] via-[#110e38] to-[#0f172a]">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#0f172a] via-[#110e38] to-[#0f172a]">
 
-  <NeuralBackground />
-  {/* Ensure UI is above the background canvas */}
-  <div className="relative z-10 ">
+      <NeuralBackground />
+      {/* Ensure UI is above the background canvas */}
+      <div className="relative z-10 ">
         {/* Tab Navigation */}
         <div className="sticky top-14 z-40 bg-[#1e293b]/95 backdrop-blur-md border-b border-white/10 h-full">
           <div className="w-full mx-auto px-6">
@@ -45,9 +49,9 @@ export default function Dashboard() {
                 className={`px-6 py-3.5 text-sm font-medium relative
                            transition-colors duration-200
                            ${tab === "build"
-                             ? "text-white"
-                             : "text-white hover:text-white"
-                           }`}
+                    ? "text-white"
+                    : "text-white hover:text-white"
+                  }`}
                 onClick={() => handleTabChange("build")}
               >
                 <div className="flex items-center gap-2">
@@ -57,15 +61,15 @@ export default function Dashboard() {
                   Build
                 </div>
               </button>
-              
+
               <button
                 ref={refs.train}
                 className={`px-6 py-3.5 text-sm font-medium relative
                            transition-colors duration-200
                            ${tab === "train"
-                             ? "text-white"
-                             : "text-gray-400 hover:text-white"
-                           }`}
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
+                  }`}
                 onClick={() => handleTabChange("train")}
               >
                 <div className="flex items-center gap-2">
@@ -76,15 +80,15 @@ export default function Dashboard() {
                   Train
                 </div>
               </button>
-              
+
               <button
                 ref={refs.test}
                 className={`px-6 py-3.5 text-sm font-medium relative
                            transition-colors duration-200
                            ${tab === "test"
-                             ? "text-white"
-                             : "text-gray-400 hover:text-white"
-                           }`}
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
+                  }`}
                 onClick={() => handleTabChange("test")}
               >
                 <div className="flex items-center gap-2">
@@ -94,8 +98,7 @@ export default function Dashboard() {
                   Test
                 </div>
               </button>
-              
-              {/* ✅ Fixed Animated Underline */}
+
               <div
                 className="absolute bottom-0 h-0.5 bg-indigo-500 transition-all duration-300 ease-in-out"
                 style={underlineStyle}
