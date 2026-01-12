@@ -34,7 +34,7 @@ function UserHomePage() {
   return (
     <div className="min-h-screen w-full bg-[#060010] text-white pt-24 px-6 relative">
       {/* that's not an orb anymore fix the import later */}
-      <div className="">
+      <div>
         <Orb />
       </div>
 
@@ -46,7 +46,7 @@ function UserHomePage() {
             Welcome back!
           </h1>
           <p className="text-gray-400 text-lg mb-12 text-left">
-            Choose what network to begin with
+            Choose a network to begin with
           </p>
         </div>
 

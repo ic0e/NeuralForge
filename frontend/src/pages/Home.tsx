@@ -1,4 +1,3 @@
-import Spline from '@splinetool/react-spline';
 import React, { useState, useEffect } from 'react';
 //@ts-ignore
 import AnimatedCubes from '../components/home/AnimatedCubes';
@@ -62,7 +61,7 @@ function HomePage() {
     },
     {
       title: "Learn & Create",
-      description: "On-hands learning with real time feedback, hyperparameter tuning and detailed explanations on everything you can change."
+      description: "Hands-on learning with real time feedback, hyperparameter tuning and detailed explanations on everything you can change."
     },
     {
       title: "Save time & Resources",
@@ -116,10 +115,10 @@ function HomePage() {
             >
               <div className="flex gap-4 mb-20 z-20">
                 <button className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-                  Get Started
+                  Get Started (Placeholder)
                 </button>
                 <button className="border border-gray-700 px-8 py-3 rounded-lg font-medium hover:border-gray-500 transition-colors duration-200">
-                  View Docs
+                  View Docs (Placeholder)
                 </button>
               </div>
               <div className="grid grid-cols-3 gap-8 text-center">
