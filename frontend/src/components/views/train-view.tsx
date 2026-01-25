@@ -134,7 +134,7 @@ export default function TrainView() {
     } finally {
       setIsTraining(false);
     }
-  }, [layers, config]);
+  }, [layers, config, demoMode]); // need to pass this
 
   const totalParams = layers.length * 1000;
   const clearGraph = () => {
