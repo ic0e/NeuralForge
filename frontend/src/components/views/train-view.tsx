@@ -120,19 +120,7 @@ export default function TrainView() {
               setChartAcc([...accuracyHistoryRef.current]);
             } else if (parsed.done) {
               setConsoleOutput(prev => [...prev, '\n--- Training Finished! ---', `Final Loss: ${parsed.loss?.toFixed?.(4) ?? parsed.loss} | Accuracy: ${parsed.accuracy?.toFixed?.(4) ?? parsed.accuracy}`]);
-              const _final_loss = parsed.loss;
-              const _final_accuracy = parsed.accuracy;
-              console.log('Training finished - loss:', _final_loss, 'accuracy:', _final_accuracy);
-              try {
-                if (_final_loss !== undefined && _final_loss !== null)
-                  lossHistoryRef.current.push(Number(_final_loss));
-                if (_final_accuracy !== undefined && _final_accuracy !== null)
-                  accuracyHistoryRef.current.push(Number(_final_accuracy));
-              } catch (e) {
-                console.warn('Failed to record final training values', e);
-              }
-              setChartLoss([...lossHistoryRef.current]);
-              setChartAcc([...accuracyHistoryRef.current]);
+              console.log('Training finished - loss:', parsed.loss, 'accuracy:', parsed.accuracy);
             } else if (parsed.output) {
               setConsoleOutput(prev => [...prev, ...(parsed.output as string[])]);
             }
