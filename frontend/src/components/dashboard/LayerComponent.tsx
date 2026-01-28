@@ -6,6 +6,10 @@ import type { Layer } from '../../types/model';
 interface LayerConfigProps extends Layer {
   onRemove: (id: number) => void;
   onUpdate: (id: number, updates: Partial<Layer>) => void;
+  onMove: (index: number, direction: 'up' | 'down') => void;
+  index: number;
+  isFirst: boolean;
+  isLast: boolean;
 }
 
 export default function LayerComponent({
@@ -18,6 +22,10 @@ export default function LayerComponent({
   inputShape,
   onRemove,
   onUpdate,
+  onMove,
+  index,
+  isFirst,
+  isLast,
 }: LayerConfigProps) {
   const handleInputChange = (field: keyof Layer, value: string | number) => {
     onUpdate(id, { [field]: value });
@@ -47,22 +55,50 @@ export default function LayerComponent({
       <div className="flex items-center justify-between mb-3">
         <div>
           <h4 className="text-[#a78bfa] font-semibold text-base">{type} Layer</h4>
-          <p className="text-gray-500 text-xs mt-0.5">Layer {id}</p>
+          <p className="text-gray-500 text-xs mt-0.5">Layer {index + 1}</p>
         </div>
-        <button
-          onClick={() => onRemove(id)}
-          className="text-gray-400 hover:text-red-400 transition-colors duration-150 bg-[#1a1a1a] hover:bg-[#2a0000] rounded-md p-1.5"
-          title="Remove layer"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => onMove(index, 'up')}
+            disabled={isFirst}
+            className={`p-1.5 rounded-md transition-colors duration-150 ${isFirst
+                ? 'text-gray-600 bg-[#1a1a1a] cursor-not-allowed'
+                : 'text-gray-400 hover:text-purple-400 bg-[#1a1a1a] hover:bg-[#2a1a3a]'
+              }`}
+            title="Move layer up"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => onMove(index, 'down')}
+            disabled={isLast}
+            className={`p-1.5 rounded-md transition-colors duration-150 ${isLast
+                ? 'text-gray-600 bg-[#1a1a1a] cursor-not-allowed'
+                : 'text-gray-400 hover:text-purple-400 bg-[#1a1a1a] hover:bg-[#2a1a3a]'
+              }`}
+            title="Move layer down"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={() => onRemove(id)}
+            className="text-gray-400 hover:text-red-400 transition-colors duration-150 bg-[#1a1a1a] hover:bg-[#2a0000] rounded-md p-1.5"
+            title="Remove layer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -70,23 +106,23 @@ export default function LayerComponent({
           <>
             <div>
               <div className="flex justify-between items-start">
-                <div className="flex items-center space-x-1"> 
-                    <label className="block text-xs font-medium text-gray-400">
-                        Output Channels
-                    </label>
-                    
-                    <Tooltip
-                        title="Output Channels (Filters)"
-                        type="Hyperparameter"
-                        explanation="This determines the number of feature maps the convolutional layer will learn and produce. It controls the depth of the output volume. The higher the parameter is, the more neurons we have. For example - 64 output channels = ~50000 neurons. (because each channel looks at each pixel of the image 64 times, 28*28*64 = 50176)"
-                        smaller="Fewer channels mean fewer features learned, potentially underfitting."
-                        bigger="More channels increase model capacity but risk overfitting and dramatically increase computation time."
-                        recommendation="Start with powers of 2 (e.g., 32, 64) and double the channels in deeper layers."
-                        position="right"
-                    />
+                <div className="flex items-center space-x-1">
+                  <label className="block text-xs font-medium text-gray-400">
+                    Output Channels
+                  </label>
+
+                  <Tooltip
+                    title="Output Channels (Filters)"
+                    type="Hyperparameter"
+                    explanation="This determines the number of feature maps the convolutional layer will learn and produce. It controls the depth of the output volume. The higher the parameter is, the more neurons we have. For example - 64 output channels = ~50000 neurons. (because each channel looks at each pixel of the image 64 times, 28*28*64 = 50176)"
+                    smaller="Fewer channels mean fewer features learned, potentially underfitting."
+                    bigger="More channels increase model capacity but risk overfitting and dramatically increase computation time."
+                    recommendation="Start with powers of 2 (e.g., 32, 64) and double the channels in deeper layers."
+                    position="right"
+                  />
                 </div>
               </div>
-              
+
               <input
                 type="number"
                 value={outputChannels || ''}
@@ -98,7 +134,7 @@ export default function LayerComponent({
 
             <div>
               <div className="flex justify-between items-start">
-                <div className="flex items-center space-x-1"> 
+                <div className="flex items-center space-x-1">
                   <label className="block text-xs font-medium text-gray-400">
                     Kernel Size
                   </label>
@@ -111,9 +147,9 @@ export default function LayerComponent({
                     recommendation="Start with **3x3**. It's the industry standard because it's the best balance for finding features without wasting computer power."
                     position="right"
                   />
-                  </div>
+                </div>
               </div>
-              
+
               <input
                 type="number"
                 value={kernelSize || ''}
@@ -127,21 +163,21 @@ export default function LayerComponent({
 
         {type === 'Fully Connected' && (
           <div>
-            <div className="flex items-center space-x-1"> 
-                    <label className="block text-xs font-medium text-gray-400">
-                        Units
-                    </label>
-                    
-                    <Tooltip
-                        title="Units (Neurons)"
-                        type="Hyperparameter"
-                        explanation="This defines the number of neurons in the fully connected layer. Each neuron processes information from all neurons in the previous layer, allowing the network to solidify the learned features into final predictions."
-                        smaller="Fewer units may lead to underfitting, missing important patterns."
-                        bigger="Too many units can cause overfitting and increase computation time."
-                        recommendation="Choose a number that balances model complexity, often less than the previous Convolutional layer's output size. (connect all ~50000 neurons from conv layer to 128 or 256 units here for less complexity.)"
-                        position="right"
-                    />
-                </div>
+            <div className="flex items-center space-x-1">
+              <label className="block text-xs font-medium text-gray-400">
+                Units
+              </label>
+
+              <Tooltip
+                title="Units (Neurons)"
+                type="Hyperparameter"
+                explanation="This defines the number of neurons in the fully connected layer. Each neuron processes information from all neurons in the previous layer, allowing the network to solidify the learned features into final predictions."
+                smaller="Fewer units may lead to underfitting, missing important patterns."
+                bigger="Too many units can cause overfitting and increase computation time."
+                recommendation="Choose a number that balances model complexity, often less than the previous Convolutional layer's output size. (connect all ~50000 neurons from conv layer to 128 or 256 units here for less complexity.)"
+                position="right"
+              />
+            </div>
             <input
               type="number"
               value={units || ''}
@@ -154,20 +190,20 @@ export default function LayerComponent({
 
         <div>
           <div className="flex justify-between items-start">
-                <div className="flex items-center space-x-1"> 
-                  <label className="block text-xs font-medium text-gray-400">
-                    Activation Function
-                  </label>
-                  <Tooltip
-                    title="Activation Function (The Decision Maker)"
-                    type="Core Component"
-                    explanation="The activation function lives inside every neuron and decides whether that neuron should 'fire' and pass its information to the next layer. It's like turning the neuron 'on' or 'off.' Without it, the network could only learn straight lines and simple patterns."
-                    smaller="Using a simple activation (like ReLU) makes the network fast and efficient for finding patterns in images."
-                    bigger="Using a complex activation (like Sigmoid or Tanh) can sometimes slow down learning in very deep networks, but is necessary for specific tasks like predicting probabilities."
-                    recommendation="Start with ReLU. It is the most common and best choice for most hidden layers in modern neural networks."
-                    position="right"
-                  />
-                </div>
+            <div className="flex items-center space-x-1">
+              <label className="block text-xs font-medium text-gray-400">
+                Activation Function
+              </label>
+              <Tooltip
+                title="Activation Function (The Decision Maker)"
+                type="Core Component"
+                explanation="The activation function lives inside every neuron and decides whether that neuron should 'fire' and pass its information to the next layer. It's like turning the neuron 'on' or 'off.' Without it, the network could only learn straight lines and simple patterns."
+                smaller="Using a simple activation (like ReLU) makes the network fast and efficient for finding patterns in images."
+                bigger="Using a complex activation (like Sigmoid or Tanh) can sometimes slow down learning in very deep networks, but is necessary for specific tasks like predicting probabilities."
+                recommendation="Start with ReLU. It is the most common and best choice for most hidden layers in modern neural networks."
+                position="right"
+              />
+            </div>
           </div>
           <select
             value={displayActivation}

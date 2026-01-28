@@ -15,7 +15,7 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
 
   // use the current layers directly instead of functional update
   const updateLayer = (id: number, updates: Partial<Layer>) => {
-    const updatedLayers = layers.map(layer => 
+    const updatedLayers = layers.map(layer =>
       layer.id === id ? { ...layer, ...updates } : layer
     );
     setLayers(updatedLayers);
@@ -48,6 +48,15 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
     setLayers(layers.filter(layer => layer.id !== idToRemove));
   };
 
+  const moveLayer = (index: number, direction: 'up' | 'down') => {
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= layers.length) return;
+
+    const newLayers = [...layers];
+    [newLayers[index], newLayers[newIndex]] = [newLayers[newIndex], newLayers[index]];
+    setLayers(newLayers);
+  };
+
   return (
     <div className="bg-[#1e2538] rounded-md p-6 border border-white/10">
       <div className="flex items-center gap-3 mb-4">
@@ -57,7 +66,7 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
         <h2 className="text-xl font-semibold text-white">Model Architecture</h2>
       </div>
       <p className="text-gray-400 text-sm mb-6">Construct your neural network by adding and configuring layers.</p>
-      
+
       {layers.length === 0 ? (
         <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-lg">
           <svg className="w-12 h-12 text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +77,7 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
         </div>
       ) : (
         <div className="flex flex-wrap gap-4 mb-6">
-          {layers.map(layer => (
+          {layers.map((layer, index) => (
             <LayerConfig
               key={layer.id}
               id={layer.id}
@@ -80,13 +89,17 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
               inputShape={layer.inputShape}
               onRemove={removeLayer}
               onUpdate={updateLayer}
+              onMove={moveLayer}
+              index={index}
+              isFirst={index === 0}
+              isLast={index === layers.length - 1}
             />
           ))}
         </div>
       )}
-      
+
       <div className="flex gap-3 pt-4 border-t border-white/10">
-        <button 
+        <button
           onClick={addFullyConnectedLayer}
           className="btn-transparent-white"
         >
@@ -96,15 +109,15 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
           Add Fully Connected
         </button>
         <Tooltip
-              title="Fully Connected Layer"
-              type="Important"
-              explanation="A layer that connects every neuron in one layer to every neuron in the next layer."
-              smaller="Fewer layers may miss important features but train faster."
-              bigger="More layers would increase training time."
-              recommendation="Connect all neurons from the previous layer to this one. Commonly used towards the end of the network. Example - 2 convolutional layers, followed by 1 fully connected layer. All the neurons connect, reassuring confidence in the final output."
-              position="top" 
-            />
-        <button 
+          title="Fully Connected Layer"
+          type="Important"
+          explanation="A layer that connects every neuron in one layer to every neuron in the next layer."
+          smaller="Fewer layers may miss important features but train faster."
+          bigger="More layers would increase training time."
+          recommendation="Connect all neurons from the previous layer to this one. Commonly used towards the end of the network. Example - 2 convolutional layers, followed by 1 fully connected layer. All the neurons connect, reassuring confidence in the final output."
+          position="top"
+        />
+        <button
           onClick={addConvolutionalLayer}
           className="flex items-center gap-2 px-4 py-2.5 bg-[#334155] hover:bg-[#3f4f62] 
                      text-white text-sm font-medium rounded-lg
@@ -117,14 +130,14 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
           Add Convolutional
         </button>
         <Tooltip
-              title="Convolutional Layers"
-              type="Important"
-              explanation="Layers that see and learn special patterns in images. They help the model understand features like edges, shapes and more."
-              smaller="Fewer layers may miss important features but train faster."
-              bigger="More layers would significantly increase training time but it will capture more complex features."
-              recommendation="Start with 1 or 2 of these layers for simpler neural networks, increase for more complex data. (e.g. detecting numbers - 2 layers are enough, detecting a lot of objects - 4 layers is better)"
-              position="top" 
-            />
+          title="Convolutional Layers"
+          type="Important"
+          explanation="Layers that see and learn special patterns in images. They help the model understand features like edges, shapes and more."
+          smaller="Fewer layers may miss important features but train faster."
+          bigger="More layers would significantly increase training time but it will capture more complex features."
+          recommendation="Start with 1 or 2 of these layers for simpler neural networks, increase for more complex data. (e.g. detecting numbers - 2 layers are enough, detecting a lot of objects - 4 layers is better)"
+          position="top"
+        />
       </div>
     </div>
   );
