@@ -57,30 +57,30 @@ export default function DatasetSelector() {
 
   return (
     <div>
-      <h2>Dataset</h2>
       <div className="w-full p-4 bg-[#1e2538] rounded-md border border-[#374151] shadow-2xl">
-        <label className="block mb-2">
+        <p className="underline-title-text">Choose a dataset to train your NN on.</p>
+        <label className="flex items-center gap-2 mb-2 cursor-pointer text-gray-300 hover:text-white transition-colors">
           <input
-            className="m-1"
+            className="w-4 h-4 accent-purple-500 cursor-pointer"
             type="radio"
             name="dataset"
             value="mnist"
             checked={selectedDataset === "mnist"}
             onChange={handleDatasetChange}
           />
-          MNIST (Default)
+          <span className="text-sm font-medium">MNIST (Default)</span>
         </label>
 
-        <label className="block mb-3">
+        <label className="flex items-center gap-2 mb-3 cursor-pointer text-gray-300 hover:text-white transition-colors">
           <input
-            className="m-1"
+            className="w-4 h-4 accent-purple-500 cursor-pointer"
             type="radio"
             name="dataset"
             value="custom"
             checked={selectedDataset === "custom"}
             onChange={handleDatasetChange}
           />
-          Upload Custom Dataset
+          <span className="text-sm font-medium">Upload Custom Dataset</span>
         </label>
 
         {/* Upload box that appears when custom dataset is selected */}

@@ -146,7 +146,6 @@ export default function TrainView() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1 className="">Train</h1>
       <div style={{ display: "flex", gap: "3rem" }} className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
         <div style={{ width: '300px' }}>
           <h2 className="underline-title-text">Training Configuration</h2>
