@@ -23,8 +23,8 @@ function UserHomePage() {
     },
     {
       id: 2,
-      title: "Text Prediction NN (placeholder)",
-      description: "Decorative placeholder, unlikely feature.",
+      title: "Learn more in the user forum.",
+      description: "The user forum is a place where you can ask questions and share your knowledge with other users.",
       status: "coming-soon",
       icon: "📝",
       href: "#"
