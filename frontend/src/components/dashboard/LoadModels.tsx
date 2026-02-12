@@ -33,6 +33,15 @@ export default function LoadModels() {
   const [editingModelId, setEditingModelId] = useState<string | null>(null);
   const [editedName, setEditedName] = useState('');
 
+  // Pagination
+  const MODELS_PER_PAGE = 3;
+  const [page, setPage] = useState(0);
+  const totalPages = Math.ceil(savedModels.length / MODELS_PER_PAGE);
+  const paginatedModels = savedModels.slice(
+    page * MODELS_PER_PAGE,
+    page * MODELS_PER_PAGE + MODELS_PER_PAGE
+  );
+
   // Save section states (kept identical)
   const [modelName, setModelName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -114,7 +123,12 @@ export default function LoadModels() {
       const ref = doc(db, 'users', currentUser.uid, 'models', modelId);
       await deleteDoc(ref);
 
-      setSavedModels(prev => prev.filter(m => m.id !== modelId));
+      setSavedModels(prev => {
+        const updated = prev.filter(m => m.id !== modelId);
+        const maxPage = Math.max(0, Math.ceil(updated.length / MODELS_PER_PAGE) - 1);
+        if (page > maxPage) setPage(maxPage);
+        return updated;
+      });
       setMessage('Model deleted successfully');
     } catch (error) {
       console.error('Error deleting model:', error);
@@ -251,7 +265,7 @@ export default function LoadModels() {
         <p className="text-gray-400">No saved models found</p>
       ) : (
         <div className="space-y-3">
-          {savedModels.map(model => (
+          {paginatedModels.map(model => (
             <div
               key={model.id}
               className="flex justify-between items-center p-4 bg-[#0f0f0f] rounded-lg border border-[#4a6380]/40 shadow-md transition-all hover:border-purple-500/40"
@@ -341,6 +355,44 @@ export default function LoadModels() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {/* Pagination Controls */}
+      {savedModels.length > MODELS_PER_PAGE && (
+        <div className="flex items-center justify-center gap-3 mt-5 pt-4 border-t border-[#374151]">
+          <button
+            onClick={() => setPage(p => Math.max(0, p - 1))}
+            disabled={page === 0}
+            className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+              border border-white/10
+              disabled:opacity-30 disabled:cursor-not-allowed
+              bg-[#334155] hover:bg-[#3f4f62] text-white
+              hover:border-purple-500/40 disabled:hover:border-white/10"
+          >
+            <svg className="w-4 h-4 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Prev
+          </button>
+
+          <span className="text-sm text-gray-400 tabular-nums">
+            {page + 1} <span className="text-gray-600">/</span> {totalPages}
+          </span>
+
+          <button
+            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+            disabled={page >= totalPages - 1}
+            className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200
+              border border-white/10
+              disabled:opacity-30 disabled:cursor-not-allowed
+              bg-[#334155] hover:bg-[#3f4f62] text-white
+              hover:border-purple-500/40 disabled:hover:border-white/10"
+          >
+            Next
+            <svg className="w-4 h-4 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       )}
     </div>
