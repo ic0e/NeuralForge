@@ -1,4 +1,4 @@
-@import './components/header/Navbar.css'; 
+@import './components/header/Navbar.css';
 @import "tailwindcss";
 @tailwind utilities;
 
@@ -16,23 +16,23 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 body {
   overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 /* TAILWIND COMPONENTS */
 @layer components {
   .btn-transparent-white {
-    @apply flex items-center gap-2 px-4 py-2.5 bg-[#334155] hover:bg-[#3f4f62] 
-                     text-white text-sm font-medium rounded-lg
-                     transition-all duration-200 ease-out
-                     border border-white/5 hover:border-white/10;
+    @apply flex items-center gap-2 px-4 py-2.5 bg-[#334155] hover:bg-[#3f4f62] text-white text-sm font-medium rounded-lg transition-all duration-200 ease-out border border-white/5 hover:border-white/10;
   }
 
   .black-purple-hover {
-    @apply w-full px-3 py-1.5 bg-[#1a1a1a] text-white text-sm rounded-md 
-                           border border-transparent outline-none transition-all duration-150 
-                           hover:border-[#a78bfa] focus:border-[#a78bfa];
+    @apply w-full px-3 py-1.5 bg-[#1a1a1a] text-white text-sm rounded-md border border-transparent outline-none transition-all duration-150 hover:border-[#a78bfa] focus:border-[#a78bfa];
   }
 
   .black-purple-hover-div {
