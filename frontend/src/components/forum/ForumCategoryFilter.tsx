@@ -1,5 +1,3 @@
-
-
 export interface ForumCategory {
     id: string;
     label: string;

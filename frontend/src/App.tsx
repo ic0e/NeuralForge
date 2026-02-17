@@ -14,6 +14,7 @@ import ProfilePage from './components/auth/profile/index';
 import { AuthProvider, useAuth } from './contexts/authContext/index';
 //@ts-ignore
 import AdminPanel from './pages/AdminPanel'
+//@ts-ignore
 import ForumPage from './pages/ForumPage'
 
 // Create a separate component that uses the useAuth hook
