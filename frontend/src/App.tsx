@@ -14,6 +14,7 @@ import ProfilePage from './components/auth/profile/index';
 import { AuthProvider, useAuth } from './contexts/authContext/index';
 //@ts-ignore
 import AdminPanel from './pages/AdminPanel'
+import ForumPage from './pages/ForumPage'
 
 // Create a separate component that uses the useAuth hook
 function AppContent() {
@@ -29,6 +30,7 @@ function AppContent() {
     else if (path === '/signout') setCurrentPage('signout');
     else if (path === '/profile') setCurrentPage('profile');
     else if (path === '/adminpanel') setCurrentPage('adminpanel');
+    else if (path === '/forum') setCurrentPage('forum');
     else if (!currentUser) setCurrentPage('home');
     else setCurrentPage('loggeduser');
   }, [currentUser]); // Add currentUser as dependency
@@ -43,6 +45,7 @@ function AppContent() {
       profile: 'Profile - NeuralForge',
       loggeduser: 'Home - NeuralForge',
       adminpanel: 'Admin Panel - NeuralForge',
+      forum: 'Forum - NeuralForge',
       home: 'NeuralForge',
     };
     document.title = pageTitles[currentPage] || 'NeuralForge';
@@ -71,6 +74,8 @@ function AppContent() {
         return <UserHomePage />;
       case 'adminpanel':
         return <AdminPanel />;
+      case 'forum':
+        return <ForumPage />;
       case 'home':
       default:
         return <Home />;

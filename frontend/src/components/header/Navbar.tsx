@@ -97,6 +97,18 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
               Dashboard
             </a>
 
+            <a
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium
+                         transition-all duration-300 ease-out
+                         ${currentPage === 'forum'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+              href="#"
+              onClick={(e) => handleNavClick('forum', e)}
+            >
+              Forum
+            </a>
+
             {userRole === 'admin' && (
               <a
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium
@@ -226,6 +238,18 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
               onClick={(e) => handleNavClick('dashboard', e)}
             >
               Dashboard
+            </a>
+
+            <a
+              className={`block px-3 py-2 rounded-lg text-sm font-medium
+                         transition-all duration-300 ease-out
+                         ${currentPage === 'forum'
+                  ? 'text-white bg-white/10 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5 hover:shadow-[0_0_8px_rgba(255,255,255,0.15)]'}`}
+              href="#"
+              onClick={(e) => handleNavClick('forum', e)}
+            >
+              Forum
             </a>
 
             {/* Admin Panel - Only for admins (mobile) */}
