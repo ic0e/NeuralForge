@@ -4,53 +4,13 @@ import AnimatedCubes from '../components/home/AnimatedCubes';
 //@ts-ignore
 import { AuthProvider } from '../contexts/authContext/index';
 //@ts-ignore
-function TextType({ text, typingSpeed = 75, pauseDuration = 1500, showCursor = true, cursorCharacter = "_" }) {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [textArrayIndex, setTextArrayIndex] = useState(0);
-
-  useEffect(() => {
-    document.title = 'Landing - NeuralForge';
-  }, []);
-
-  useEffect(() => {
-    const currentText = text[textArrayIndex];
-
-    const timer = setTimeout(() => {
-      if (!isDeleting) {
-        if (currentIndex < currentText.length) {
-          setDisplayText(currentText.substring(0, currentIndex + 1));
-          setCurrentIndex(currentIndex + 1);
-        } else {
-          setTimeout(() => setIsDeleting(true), pauseDuration);
-        }
-      } else {
-        if (currentIndex > 0) {
-          setDisplayText(currentText.substring(0, currentIndex - 1));
-          setCurrentIndex(currentIndex - 1);
-        } else {
-          setIsDeleting(false);
-          setTextArrayIndex((textArrayIndex + 1) % text.length);
-        }
-      }
-    }, isDeleting ? typingSpeed / 2 : typingSpeed);
-
-    return () => clearTimeout(timer);
-  }, [currentIndex, isDeleting, textArrayIndex, text, typingSpeed, pauseDuration]);
-
-  return (
-    <span className="font-mono">
-      {displayText}
-      {showCursor && <span className="animate-pulse">{cursorCharacter}</span>}
-    </span>
-  );
-}
+import TextType from '../components/home/TextType';
 
 function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    document.title = 'Landing - NeuralForge';
     setIsVisible(true);
   }, []);
 
@@ -77,23 +37,25 @@ function HomePage() {
           <div className="max-w-5xl mx-auto">
             {/* Hero Section */}
             <div className={`pointer-events-none transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <h1 className="text-5xl font-bold mb-6 leading-tight">
-                <TextType
-                  text={["Welcome to Neuralforge!", "Build and deploy ML models with ease."]}
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  showCursor={true}
-                  cursorCharacter="_"
-                />
-              </h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 font-mono text-left">Welcome to NeuralForge!</h1>
 
               <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl leading-relaxed pointer-events-none">
                 A modern platform for machine learning engineers of all kinds who want to build and prototype models faster than ever before.
               </p>
             </div>
 
+            <div className="pointer-events-none text-5xl font-mono mb-6 leading-tight relative z-20 min-h-[4rem]">
+              <TextType
+                text={["Build. Deploy.", "Rapid prototyping. Faster training."]}
+                typingSpeed={75}
+                pauseDuration={1500}
+                showCursor={true}
+                cursorCharacter="_"
+              />
+            </div>
+
             {/* Features Grid */}
-            <div className="grid md:grid-cols-3 gap-6 mb-20 z-index-20 pointer-events-none">
+            <div className="grid md:grid-cols-3 gap-6 mb-20 z-20 pointer-events-none">
               {features.map((feature, idx) => (
                 <div
                   key={idx}
