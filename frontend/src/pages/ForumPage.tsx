@@ -13,14 +13,12 @@ import {
 } from '../firebase/forumService';
 import type { DocumentSnapshot } from 'firebase/firestore';
 
-// ─── Categories (static metadata) ──────────────────────────────────────────────
-
 const CATEGORIES: ForumCategory[] = [
-    { id: 'all', label: 'All Posts', icon: '📋' },
-    { id: 'question', label: 'Questions', icon: '❓' },
-    { id: 'discussion', label: 'Discussion', icon: '💬' },
-    { id: 'showcase', label: 'Showcase', icon: '🏆' },
-    { id: 'tutorial', label: 'Tutorials', icon: '📖' },
+    { id: 'all', label: 'All Posts' },
+    { id: 'question', label: 'Questions' },
+    { id: 'discussion', label: 'Discussion' },
+    { id: 'showcase', label: 'Showcase' },
+    { id: 'tutorial', label: 'Tutorials' },
 ];
 
 type SortOption = 'recent' | 'popular' | 'most-replies';
@@ -31,9 +29,6 @@ const SORT_OPTIONS: { id: SortOption; label: string }[] = [
     { id: 'most-replies', label: 'Most Replies' },
 ];
 
-// ─── Helpers ────────────────────────────────────────────────────────────────────
-
-/** Convert Firestore doc into the shape the card component expects. */
 function toForumPost(doc: ForumPostDoc): ForumPost {
     return {
         id: doc.id,
@@ -48,12 +43,8 @@ function toForumPost(doc: ForumPostDoc): ForumPost {
     };
 }
 
-// ─── Component ──────────────────────────────────────────────────────────────────
-
 export default function ForumPage() {
     const { currentUser } = useAuth();
-
-    // Data state
     const [posts, setPosts] = useState<ForumPost[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -74,8 +65,6 @@ export default function ForumPage() {
 
     const totalPages = Math.max(1, Math.ceil(totalCount / POSTS_PER_PAGE));
 
-    // ── Load posts from Firestore ───────────────────────────────────────────────
-
     const loadPage = useCallback(async (page: number) => {
         setIsLoading(true);
         setError(null);
@@ -86,7 +75,6 @@ export default function ForumPage() {
             setPosts(result.posts.map(toForumPost));
             setTotalCount(result.totalCount);
 
-            // Cache the cursor for the *next* page so we can navigate forward
             if (result.lastDoc) {
                 setCursorCache((prev) => {
                     const next = new Map(prev);
@@ -105,24 +93,19 @@ export default function ForumPage() {
     // Load first page on mount
     useEffect(() => {
         loadPage(1);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Entrance animation
     useEffect(() => { setIsVisible(true); }, []);
     useEffect(() => { document.title = 'Forum - NeuralForge'; }, []);
 
-    // ── Page change handler ─────────────────────────────────────────────────────
-
     const goToPage = useCallback((page: number) => {
         if (page < 1 || page > totalPages || page === currentPage) return;
-        if (!cursorCache.has(page)) return; // safety: cursor must exist
+        if (!cursorCache.has(page)) return;
         setCurrentPage(page);
         loadPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [totalPages, currentPage, cursorCache, loadPage]);
 
-    // ── Filtering & sorting (client-side on current page) ───────────────────────
 
     const filteredPosts = useMemo(() => {
         let result = [...posts];
@@ -165,7 +148,7 @@ export default function ForumPage() {
         return [...pinned, ...unpinned];
     }, [posts, activeCategory, sortBy, searchQuery]);
 
-    // ── Create handler ──────────────────────────────────────────────────────────
+    // create handler 
 
     const handleCreatePost = async (data: { title: string; content: string; tags: string[] }) => {
         if (!currentUser) return;

@@ -1,7 +1,6 @@
 export interface ForumCategory {
     id: string;
     label: string;
-    icon: string;
     count?: number;
 }
 
@@ -27,7 +26,6 @@ function ForumCategoryFilter({ categories, activeCategory, onCategoryChange }: F
                             }`}
                         onClick={() => onCategoryChange(cat.id)}
                     >
-                        <span className="text-base">{cat.icon}</span>
                         <span>{cat.label}</span>
                         {cat.count !== undefined && (
                             <span className={`ml-0.5 text-[11px] px-1.5 py-0.5 rounded-full font-medium
