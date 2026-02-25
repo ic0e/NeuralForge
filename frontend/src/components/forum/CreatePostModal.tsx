@@ -44,7 +44,7 @@ function CreatePostModal({ isOpen, onClose, onSubmit, availableTags = [] }: Crea
             />
 
             {/* Modal */}
-            <div className="relative w-full max-w-lg mx-4 bg-[#0f1629] border border-gray-700/60 
+            <div className="relative w-full max-w-6xl max-h-4xl overflow-y-auto mx-4 bg-[#0f1629] border border-gray-700/60 
                       rounded-2xl shadow-2xl shadow-black/50 animate-in fade-in zoom-in-95 duration-200">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700/40">
@@ -87,7 +87,7 @@ function CreatePostModal({ isOpen, onClose, onSubmit, availableTags = [] }: Crea
                             placeholder="Describe your question or share your thoughts..."
                             rows={5}
                             className="w-full px-3.5 py-2.5 bg-gray-900/60 border border-gray-700/50 rounded-lg
-                         text-white text-sm placeholder-gray-500 resize-none
+                         text-white text-sm placeholder-gray-500 resize-y
                          focus:outline-none focus:border-indigo-500/60 focus:shadow-[0_0_8px_rgba(99,102,241,0.15)]
                          transition-all duration-200"
                         />
