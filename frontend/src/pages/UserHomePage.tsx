@@ -18,22 +18,32 @@ function UserHomePage() {
       title: "Image Recognizer CNN",
       description: "Build convolutional neural networks for image classification and object detection. Perfect for computer vision projects.",
       status: "active",
-      icon: "🖼️",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg> // temporary svg icon 1
+      ),
       href: "/dashboard"
     },
     {
       id: 2,
       title: "Learn more in the user forum.",
       description: "The user forum is a place where you can ask questions and share your knowledge with other users.",
-      status: "active",
-      icon: "📝",
+      status: "inactive",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg> // temporary svg icon 2
+      ),
       href: "/forum"
     }
   ];
 
   return (
     <div className="min-h-screen w-full bg-[#060010] text-white pt-24 px-6 relative">
-      {/* that's not an orb anymore fix the import later */}
+      {/* todo fix naming of "orb" */}
       <div>
         <Orb />
       </div>
@@ -85,7 +95,7 @@ function UserHomePage() {
                       href={option.href}
                       className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
                     >
-                      Start Building →
+                      Work in Progress
                     </a>
                   ) : (
                     <span className="inline-flex items-center gap-2 text-gray-500 font-medium">
@@ -105,6 +115,7 @@ function UserHomePage() {
           style={{ transitionDelay: '500ms' }}
         >
           <div className="grid grid-cols-3 gap-8 text-left">
+            {/* }
             <div>
               <div className="text-2xl font-bold mb-2">0</div>
               <div className="text-gray-400 text-sm">Models Created</div>
@@ -117,6 +128,7 @@ function UserHomePage() {
               <div className="text-2xl font-bold mb-2">1</div>
               <div className="text-gray-400 text-sm">Network Types</div>
             </div>
+             */}
           </div>
         </div>
       </div>
