@@ -9,6 +9,7 @@ A visual neural network training platform built with React + PyTorch. Design, tr
 - **Node.js** (v18+)
 - **Python** (3.10+)
 - **CUDA** (optional, for GPU acceleration)
+- **Firebase API key** (optional, for saving user data)
 
 ### 1. Backend Setup
 
@@ -41,5 +42,4 @@ The React app runs on `http://localhost:5173`
 | Vite | CUDA |
 | TailwindCSS | Matplotlib/Plotly |
 | MUI Components | NumPy/Pandas |
-
 ---
