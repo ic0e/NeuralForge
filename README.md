@@ -31,6 +31,8 @@ npm run dev
 
 The React app runs on `http://localhost:5173`
 
+NeuralForge is currently in an early development stage. To bypass temporary CORS limitations, please use a browser with security features disabled (for example; Chrome with the `--disable-web-security` flag).
+
 ---
 
 ## Tech Stack
