@@ -4,6 +4,7 @@ import type { Layer } from '../../types/model';
 import { useModel } from '../../contexts/ModelContext';
 //@ts-ignore
 import Tooltip from '../dashboard/Reuseable/Tooltip';
+import TrainingHistory, { ComparisonChart } from '../dashboard/TrainingHistory';
 
 const useModelArchitectureState = () => {
   const [layers, setLayers] = useState<Layer[]>([
@@ -30,7 +31,8 @@ export default function TrainView() {
   const [chartAcc, setChartAcc] = useState<number[]>([]);
   const [confusionMatrixUrl, setConfusionMatrixUrl] = useState<string>('');
   const [isLoadingConfusionMatrix, setIsLoadingConfusionMatrix] = useState(false);
-  const [activeTab, setActiveTab] = useState<'chart' | 'matrix' | 'console'>('chart'); // 🔥 Added tab state
+  const [activeTab, setActiveTab] = useState<'chart' | 'matrix' | 'console'>('chart');
+  const [selectedHistory, setSelectedHistory] = useState<any>(null);
 
   const { layers } = useModel();
 
@@ -271,14 +273,21 @@ export default function TrainView() {
           <div className="underline-title-text mb-2">Visualizations</div>
 
           {/* Tab buttons */}
-          <div className="flex mb-3 space-x-2">
+          <div className="flex mb-3 space-x-2 items-center">
             <button onClick={() => setActiveTab('chart')} className={`px-4 py-1 rounded-md ${activeTab === 'chart' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Chart</button>
             <button onClick={() => setActiveTab('matrix')} className={`px-4 py-1 rounded-md ${activeTab === 'matrix' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Matrix</button>
             <button onClick={() => setActiveTab('console')} className={`px-4 py-1 rounded-md ${activeTab === 'console' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Console</button>
+            <div className="ml-auto">
+              <TrainingHistory
+                onSelectHistory={setSelectedHistory}
+                selectedHistoryId={selectedHistory?.id || null}
+              />
+            </div>
           </div>
 
           {/* Tab: Chart */}
           {activeTab === 'chart' && (
+            <>
             <div className="mt-4 p-3 rounded-md bg-slate-900">
               <h3 className="underline-title-text">Training Chart</h3>
               <div style={{ background: '#0b1220', padding: '12px', borderRadius: 8 }} className="text-white">
@@ -302,7 +311,6 @@ export default function TrainView() {
                   }}
                   sx={{
                     height: 350,
-                    // More specific selectors
                     '& .MuiChartsAxis-root .MuiChartsAxis-tickLabel': {
                       fill: 'white',
                     },
@@ -329,6 +337,15 @@ export default function TrainView() {
                 </span>
               </div>
             </div>
+
+            {/* Comparison Chart */}
+            {selectedHistory && (
+              <ComparisonChart
+                entry={selectedHistory}
+                onClose={() => setSelectedHistory(null)}
+              />
+            )}
+            </>
           )}
 
           {/* Tab: Matrix */}

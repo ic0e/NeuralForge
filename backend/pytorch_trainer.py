@@ -21,6 +21,7 @@ from torch.utils.data import Dataset
 import plotly.graph_objects as go
 
 TEMP_MODEL_PATH = './temp_model_state.pth'
+TRAINING_HISTORY_PATH = './training_history.json'
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 CONFUSION_MATRIX_DATA = None
 
@@ -103,6 +104,45 @@ def plot_confusion_matrix():
     # Convert to image bytes
     img_bytes = fig.to_image(format="png")
     return img_bytes
+
+
+# ===== TRAINING HISTORY PERSISTENCE =====
+
+import datetime
+import uuid
+
+def save_training_history(entry):
+    """Append a training history entry to the JSON file."""
+    history = []
+    if os.path.exists(TRAINING_HISTORY_PATH):
+        try:
+            with open(TRAINING_HISTORY_PATH, 'r') as f:
+                history = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            history = []
+    history.insert(0, entry)  # newest first
+    with open(TRAINING_HISTORY_PATH, 'w') as f:
+        json.dump(history, f, indent=2)
+
+def get_training_history():
+    """Return the full training history list."""
+    if not os.path.exists(TRAINING_HISTORY_PATH):
+        return []
+    try:
+        with open(TRAINING_HISTORY_PATH, 'r') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return []
+
+def delete_training_history(history_id):
+    """Delete a training history entry by its ID. Returns True if found."""
+    history = get_training_history()
+    new_history = [h for h in history if h.get('id') != history_id]
+    if len(new_history) == len(history):
+        return False
+    with open(TRAINING_HISTORY_PATH, 'w') as f:
+        json.dump(new_history, f, indent=2)
+    return True
 
 def build_dynamic_cnn(layers, input_channels=1, input_size=28, num_classes=10):
     model_layers = []
@@ -272,6 +312,8 @@ def train_model(layers, config, progress_callback=None):
     output_log.append(f"Architecture: Input → {len(layers)} user layers → Output({num_classes} classes)")
     
     final_loss, final_accuracy = 0.0, 0.0
+    _loss_history = []
+    _accuracy_history = []
 
     for epoch in range(1, epochs + 1):
         model.train()
@@ -314,6 +356,8 @@ def train_model(layers, config, progress_callback=None):
         
         epoch_accuracy = correct / total
         final_loss, final_accuracy = epoch_loss, epoch_accuracy
+        _loss_history.append(float(final_loss))
+        _accuracy_history.append(float(final_accuracy))
 
         # Store confusion matrix data on final epoch
         if epoch == epochs:
@@ -344,6 +388,36 @@ def train_model(layers, config, progress_callback=None):
             'num_classes': num_classes
         }
         torch.save(save_data, TEMP_MODEL_PATH)
+        
+    # Determine dataset name
+    dataset_name = 'MNIST'
+    custom_dataset_path_check = './custom_data'
+    if os.path.exists(custom_dataset_path_check) and os.listdir(custom_dataset_path_check):
+        zip_files = [f for f in os.listdir(custom_dataset_path_check) if f.endswith('.zip')]
+        if zip_files:
+            dataset_name = zip_files[0].replace('.zip', '')
+        else:
+            dataset_name = 'Custom Dataset'
+
+    # Save training history entry
+    history_entry = {
+        'id': str(uuid.uuid4()),
+        'timestamp': datetime.datetime.now().isoformat(),
+        'dataset': dataset_name,
+        'config': {
+            'epochs': epochs,
+            'batchSize': batch_size,
+            'optimizer': optimizer_name,
+            'learningRate': config.get('learningRate', 0.001),
+            'demoMode': config.get('demo_mode', False),
+        },
+        'layers': len(layers),
+        'finalLoss': final_loss,
+        'finalAccuracy': final_accuracy,
+        'lossHistory': _loss_history,
+        'accuracyHistory': _accuracy_history,
+    }
+    save_training_history(history_entry)
         
     return output_log, final_loss, final_accuracy
 

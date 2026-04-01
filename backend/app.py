@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, make_response, Response, send_file
-from pytorch_trainer import train_model, load_temp_model, test_model, train_generator, test_model_custom_image, download_model, plot_confusion_matrix, TEMP_MODEL_PATH
+from pytorch_trainer import train_model, load_temp_model, test_model, train_generator, test_model_custom_image, download_model, plot_confusion_matrix, TEMP_MODEL_PATH, get_training_history, delete_training_history
 import os
 from io import BytesIO
 import shutil
@@ -239,6 +239,27 @@ def upload_dataset():
     except Exception as e:
         print(f"Error in upload_dataset: {str(e)}")  # Debug log
         return jsonify({"error": f"Error handling dataset: {str(e)}"}), 500
+
+@app.route('/training_history', methods=['GET'])
+def training_history():
+    """Returns the training history list."""
+    try:
+        history = get_training_history()
+        return jsonify({"status": "success", "history": history})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route('/training_history/<string:history_id>', methods=['DELETE'])
+def delete_history(history_id):
+    """Deletes a training history entry by ID."""
+    try:
+        success = delete_training_history(history_id)
+        if success:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "error", "message": "History entry not found"}), 404
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 @app.route('/', methods=['GET'])
 def status():
