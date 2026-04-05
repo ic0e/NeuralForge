@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response, Response, send_file
+from flask_cors import CORS
 from pytorch_trainer import train_model, load_temp_model, test_model, train_generator, test_model_custom_image, download_model, plot_confusion_matrix, TEMP_MODEL_PATH, get_training_history, delete_training_history
 import os
 from io import BytesIO
@@ -7,10 +8,10 @@ import plotly.graph_objects as go
 
 CUSTOM_DATASET_PATH = './custom_data'
 
-# for whatever reason the browser blocks the testing requests because of CORS, so the only way
-# to make this work is to disable CORS in the browser by running some command??????
+
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/train', methods=['POST'])
 def train_model_endpoint():
