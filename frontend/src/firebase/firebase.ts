@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCG6Fv1aghziM58sSmh0vjTrOIm4bUX7TA",
-  authDomain: "neuralforge-eff25.firebaseapp.com",
-  projectId: "neuralforge-eff25",
-  storageBucket: "neuralforge-eff25.appspot.com",
-  messagingSenderId: "631335964615",
-  appId: "1:631335964615:web:5b5bc53d087bcc49b493e2",
-  measurementId: "G-TBX5M2Z91T"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

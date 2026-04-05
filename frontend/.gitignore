@@ -29,3 +29,8 @@ custom_data/*
 
 # Ignore temp extracted folder entirely
 temp_extracted/*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
