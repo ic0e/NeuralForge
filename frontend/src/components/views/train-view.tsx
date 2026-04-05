@@ -148,12 +148,12 @@ export default function TrainView() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <div style={{ display: "flex", gap: "3rem" }} className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
+      <div style={{ display: "flex", gap: "3rem" }} className="bg-[#111827]/80 rounded-xl p-6 border border-white/[0.06] shadow-lg shadow-black/20">
         <div style={{ width: '300px' }}>
           <h2 className="underline-title-text">Training Configuration</h2>
           <div className="black-purple-hover-div">
-            <p className="bg-purple-500/20 text-blue-200 font-mono text-sm p-0.5 border-purple-800 rounded-md text-center">Neural Network Params: {totalParams.toLocaleString()}</p>
-            <p className="bg-purple-500/20 text-blue-200 font-mono text-sm p-0.5 mt-1.5 border-purple-800 rounded-md text-center">Neural Network Layers: {layers.length}</p>
+            <p className="bg-purple-500/10 text-purple-200 font-mono text-sm p-1.5 border border-purple-500/20 rounded-md text-center">Neural Network Params: {totalParams.toLocaleString()}</p>
+            <p className="bg-purple-500/10 text-purple-200 font-mono text-sm p-1.5 mt-1.5 border border-purple-500/20 rounded-md text-center">Neural Network Layers: {layers.length}</p>
           </div>
 
           {/* Config inputs */}
@@ -274,9 +274,9 @@ export default function TrainView() {
 
           {/* Tab buttons */}
           <div className="flex mb-3 space-x-2 items-center">
-            <button onClick={() => setActiveTab('chart')} className={`px-4 py-1 rounded-md ${activeTab === 'chart' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Chart</button>
-            <button onClick={() => setActiveTab('matrix')} className={`px-4 py-1 rounded-md ${activeTab === 'matrix' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Matrix</button>
-            <button onClick={() => setActiveTab('console')} className={`px-4 py-1 rounded-md ${activeTab === 'console' ? 'bg-purple-700 text-white' : 'bg-slate-800 text-gray-400'}`}>Console</button>
+            <button onClick={() => setActiveTab('chart')} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'chart' ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.15)]' : 'bg-white/[0.03] text-gray-400 border border-white/[0.06] hover:text-gray-300 hover:border-white/10'}`}>Chart</button>
+            <button onClick={() => setActiveTab('matrix')} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'matrix' ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.15)]' : 'bg-white/[0.03] text-gray-400 border border-white/[0.06] hover:text-gray-300 hover:border-white/10'}`}>Matrix</button>
+            <button onClick={() => setActiveTab('console')} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'console' ? 'bg-purple-600/30 text-purple-200 border border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.15)]' : 'bg-white/[0.03] text-gray-400 border border-white/[0.06] hover:text-gray-300 hover:border-white/10'}`}>Console</button>
             <div className="ml-auto">
               <TrainingHistory
                 onSelectHistory={setSelectedHistory}
@@ -288,9 +288,9 @@ export default function TrainView() {
           {/* Tab: Chart */}
           {activeTab === 'chart' && (
             <>
-            <div className="mt-4 p-3 rounded-md bg-slate-900">
+            <div className="mt-4 p-3 rounded-lg bg-[#0a0f1a] border border-white/[0.04]">
               <h3 className="underline-title-text">Training Chart</h3>
-              <div style={{ background: '#0b1220', padding: '12px', borderRadius: 8 }} className="text-white">
+              <div style={{ background: '#060d18', padding: '12px', borderRadius: 8 }} className="text-white border border-white/[0.04]">
                 <LineChart
                   series={[
                     { data: chartLoss, label: 'Loss', yAxisId: 'leftAxisId' },
@@ -352,7 +352,7 @@ export default function TrainView() {
           {activeTab === 'matrix' && (
             <div className="mt-4">
               <h3 className="underline-title-text">Confusion Matrix</h3>
-              <div style={{ background: '#0b1220', padding: '12px', borderRadius: 8 }} className="text-white">
+              <div style={{ background: '#060d18', padding: '12px', borderRadius: 8 }} className="text-white border border-white/[0.04]">
                 {confusionMatrixUrl ? (
                   <img
                     src={confusionMatrixUrl}
@@ -377,7 +377,7 @@ export default function TrainView() {
               <h2 className="underline-title-text">Training Console Output</h2>
               <div
                 style={{
-                  backgroundColor: '#272b35',
+                  backgroundColor: '#060d18',
                   color: '#d4d4d4',
                   padding: '15px',
                   borderRadius: '8px',
@@ -386,7 +386,7 @@ export default function TrainView() {
                   overflowY: 'scroll',
                   whiteSpace: 'pre-wrap'
                 }}
-                className="bg-[#111827] text-green-400 font-mono text-sm p-3 rounded-md border border-purple-800/30 shadow-inner hover:border-purple-500/40"
+                className="text-green-400 font-mono text-sm p-3 rounded-md border border-purple-900/30 shadow-inner hover:border-purple-500/30"
               >
                 {consoleOutput.length > 0 ? consoleOutput.join('\n') : "Click 'Start Training' to begin..."}
               </div>

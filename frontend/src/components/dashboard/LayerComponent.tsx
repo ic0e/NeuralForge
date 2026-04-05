@@ -51,7 +51,7 @@ export default function LayerComponent({
   const displayActivation = activation || '';
 
   return (
-    <div className="w-full p-4 bg-[#0f0f0f] rounded-lg border border-[#2a2a2a] shadow-sm transition-all hover:border-purple-500/40">
+    <div className="w-full p-4 bg-[#0a0f1a] rounded-lg border border-white/[0.06] shadow-sm transition-all hover:border-purple-500/30">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h4 className="text-[#a78bfa] font-semibold text-base">{type} Layer</h4>
@@ -62,8 +62,8 @@ export default function LayerComponent({
             onClick={() => onMove(index, 'up')}
             disabled={isFirst}
             className={`p-1.5 rounded-md transition-colors duration-150 ${isFirst
-                ? 'text-gray-600 bg-[#1a1a1a] cursor-not-allowed'
-                : 'text-gray-400 hover:text-purple-400 bg-[#1a1a1a] hover:bg-[#2a1a3a]'
+                ? 'text-gray-600 bg-[#111827] cursor-not-allowed'
+                : 'text-gray-400 hover:text-purple-400 bg-[#111827] hover:bg-[#1a1030]'
               }`}
             title="Move layer up"
           >
@@ -76,7 +76,7 @@ export default function LayerComponent({
             disabled={isLast}
             className={`p-1.5 rounded-md transition-colors duration-150 ${isLast
                 ? 'text-gray-600 bg-[#1a1a1a] cursor-not-allowed'
-                : 'text-gray-400 hover:text-purple-400 bg-[#1a1a1a] hover:bg-[#2a1a3a]'
+                : 'text-gray-400 hover:text-purple-400 bg-[#111827] hover:bg-[#1a1030]'
               }`}
             title="Move layer down"
           >
@@ -86,7 +86,7 @@ export default function LayerComponent({
           </button>
           <button
             onClick={() => onRemove(id)}
-            className="text-gray-400 hover:text-red-400 transition-colors duration-150 bg-[#1a1a1a] hover:bg-[#2a0000] rounded-md p-1.5"
+            className="text-gray-400 hover:text-red-400 transition-colors duration-150 bg-[#111827] hover:bg-[#1a0a0a] rounded-md p-1.5"
             title="Remove layer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -177,11 +177,11 @@ export default function LoadModels() {
   };
 
   return (
-    <div className="w-full p-4 bg-[#1e2538] rounded-md border border-[#374151] shadow-2xl">
+    <div className="w-full p-4 bg-[#111827]/80 rounded-xl border border-white/[0.06] shadow-lg shadow-black/20">
       <h3 className="text-xl font-semibold text-white mb-3">Models</h3>
 
       {/* Save New Model */}
-      <div className="mb-6 p-4 bg-[#141a29] rounded-md border border-[#2d3748]">
+      <div className="mb-6 p-4 bg-[#0a0f1a] rounded-lg border border-white/[0.06]">
         <h4 className="text-lg font-semibold text-white mb-2">Save Model</h4>
 
         <input
@@ -217,7 +217,7 @@ export default function LoadModels() {
           {savedModels.map((m) => (
             <div
               key={m.id}
-              className="flex justify-between items-center p-4 bg-[#0f0f0f] border border-[#4a6380]/40 rounded-lg shadow"
+              className="flex justify-between items-center p-4 bg-[#0a0f1a] border border-white/[0.06] rounded-lg shadow transition-all hover:border-purple-500/30"
             >
               {/* Name + Input */}
               <div className="flex-1">

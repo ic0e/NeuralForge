@@ -57,7 +57,7 @@ export default function DatasetSelector() {
 
   return (
     <div>
-      <div className="w-full p-4 bg-[#1e2538] rounded-md border border-[#374151] shadow-2xl">
+      <div className="w-full p-4 bg-[#111827]/80 rounded-xl border border-white/[0.06] shadow-lg shadow-black/20">
         <p className="underline-title-text">Choose a dataset to train your NN on.</p>
         <label className="flex items-center gap-2 mb-2 cursor-pointer text-gray-300 hover:text-white transition-colors">
           <input

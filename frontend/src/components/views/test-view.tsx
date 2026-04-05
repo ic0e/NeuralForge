@@ -249,7 +249,7 @@ export default function TestView() {
                     <h2 className="underline-title-text">Testing Output</h2>
                     <div
                         style={{
-                            backgroundColor: '#272b35',
+                            backgroundColor: '#060d18',
                             color: '#d4d4d4',
                             padding: '15px',
                             borderRadius: '8px',
@@ -258,6 +258,7 @@ export default function TestView() {
                             overflowY: 'scroll',
                             whiteSpace: 'pre-wrap'
                         }}
+                        className="border border-white/[0.04]"
                     >
                         {testImageSrc ? (
                             <div style={imageContainerStyle}>

@@ -212,7 +212,7 @@ export default function LoadModels() {
 
   if (!currentUser) {
     return (
-      <div className="p-4 bg-gray-800 rounded-lg border border-gray-700 text-white shadow-lg">
+      <div className="p-4 bg-[#111827]/80 rounded-xl border border-white/[0.06] text-white shadow-lg shadow-black/20">
         <h3 className="text-lg font-semibold mb-2">Load Models</h3>
         <p className="text-gray-400">Please log in to view your saved models</p>
       </div>
@@ -220,7 +220,7 @@ export default function LoadModels() {
   }
 
   return (
-    <div className="w-full p-4 bg-[#1e2538] rounded-md border border-[#374151] shadow-2xl">
+    <div className="w-full p-4 bg-[#111827]/80 rounded-xl border border-white/[0.06] shadow-lg shadow-black/20">
 
 
       <h3>Save Model</h3>
@@ -268,7 +268,7 @@ export default function LoadModels() {
           {paginatedModels.map(model => (
             <div
               key={model.id}
-              className="flex justify-between items-center p-4 bg-[#0f0f0f] rounded-lg border border-[#4a6380]/40 shadow-md transition-all hover:border-purple-500/40"
+              className="flex justify-between items-center p-4 bg-[#0a0f1a] rounded-lg border border-white/[0.06] shadow-md transition-all hover:border-purple-500/30"
             >
               <div className="flex-1">
                 {editingModelId === model.id ? (

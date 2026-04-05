@@ -153,13 +153,13 @@ export default function DefaultModels() {
   };
 
   return (
-    <div className="w-full p-4 bg-[#1e2538] rounded-md border border-[#374151] shadow-2xl">
+    <div className="w-full p-4 bg-[#111827]/80 rounded-xl border border-white/[0.06] shadow-lg shadow-black/20">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-semibold text-white">Default Layer Configurations</h3>
         <button
           onClick={loadDefaultModels}
           disabled={isLoading}
-          className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-white bg-[#1f2937] border border-purple-500 rounded-lg hover:bg-purple-900/20 transition-colors duration-200 disabled:opacity-50"
+          className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-white bg-[#0a0f1a] border border-purple-500/30 rounded-lg hover:bg-purple-900/20 transition-colors duration-200 disabled:opacity-50"
         >
           {isLoading ? 'Loading...' : 'Refresh'}
         </button>
@@ -199,7 +199,7 @@ export default function DefaultModels() {
           {defaultModels.map((model) => (
             <div
               key={model.id}
-              className="flex justify-between items-center p-4 bg-[#0f0f0f] rounded-lg border border-[#4a6380]/40 shadow-md transition-all hover:border-purple-500/40"
+              className="flex justify-between items-center p-4 bg-[#0a0f1a] rounded-lg border border-white/[0.06] shadow-md transition-all hover:border-purple-500/30"
             >
               <div className="flex-1">
                 {editingModelId === model.id ? (
