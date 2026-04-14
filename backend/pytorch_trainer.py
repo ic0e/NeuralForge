@@ -149,7 +149,7 @@ def build_dynamic_cnn(layers, input_channels=1, input_size=28, num_classes=10):
     current_channels = input_channels
     current_size = input_size
     
-    # Process user-defined middle layers
+    # Process user-defined middle layers (conv and pooling)
     for layer in layers:
         layer_type = layer.get('type')
         
@@ -158,8 +158,8 @@ def build_dynamic_cnn(layers, input_channels=1, input_size=28, num_classes=10):
             kernel_size = layer.get('kernelSize', 3)
             activation_name = layer.get('activation', 'ReLU')
 
-            # Add conv layer
-            model_layers.append(nn.Conv2d(current_channels, out_channels, kernel_size, padding=1))
+            # Add conv layer with padding to preserve spatial size
+            model_layers.append(nn.Conv2d(current_channels, out_channels, kernel_size, padding=kernel_size // 2))
             current_channels = out_channels
             
             # Add activation
@@ -169,10 +169,17 @@ def build_dynamic_cnn(layers, input_channels=1, input_size=28, num_classes=10):
                 model_layers.append(nn.Sigmoid())
             elif activation_name == 'Tanh':
                 model_layers.append(nn.Tanh())
-                
-            # Add Max Pooling to reduce size by half
-            model_layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
-            current_size //= 2
+
+        elif layer_type == 'Pooling':
+            pool_size = layer.get('poolSize', 2)
+            pool_type = layer.get('poolType', 'Max')
+            
+            if pool_type == 'Average':
+                model_layers.append(nn.AvgPool2d(kernel_size=pool_size, stride=pool_size))
+            else:
+                model_layers.append(nn.MaxPool2d(kernel_size=pool_size, stride=pool_size))
+            
+            current_size //= pool_size
             
         elif layer_type == 'Fully Connected':
             # If we hit a FC layer, stop conv processing and flatten
@@ -216,10 +223,9 @@ def calculate_input_size(layers, input_size=28):
     for layer in layers:
         layer_type = layer.get('type')
         
-        if layer_type == 'Convolutional':
-            # Conv with padding=1 doesn't change size
-            # MaxPool reduces size by half
-            current_size //= 2
+        if layer_type == 'Pooling':
+            pool_size = layer.get('poolSize', 2)
+            current_size //= pool_size
             
         elif layer_type == 'Fully Connected':
             # Stop when we hit FC layers

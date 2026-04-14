@@ -44,6 +44,17 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
     setNextId(nextId + 1);
   };
 
+  const addPoolingLayer = () => {
+    const newLayer: Layer = {
+      id: nextId,
+      type: 'Pooling',
+      poolSize: 2,
+      poolType: 'Max',
+    };
+    setLayers([...layers, newLayer]);
+    setNextId(nextId + 1);
+  };
+
   const removeLayer = (idToRemove: number) => {
     setLayers(layers.filter(layer => layer.id !== idToRemove));
   };
@@ -87,6 +98,8 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
               activation={layer.activation}
               units={layer.units}
               inputShape={layer.inputShape}
+              poolSize={layer.poolSize}
+              poolType={layer.poolType}
               onRemove={removeLayer}
               onUpdate={updateLayer}
               onMove={moveLayer}
@@ -136,6 +149,27 @@ export default function ModelArchitecture({ layers, setLayers }: ModelArchitectu
           smaller="Fewer layers may miss important features but train faster."
           bigger="More layers would significantly increase training time but it will capture more complex features."
           recommendation="Start with 1 or 2 of these layers for simpler neural networks, increase for more complex data. (e.g. detecting numbers - 2 layers are enough, detecting a lot of objects - 4 layers is better)"
+          position="top"
+        />
+        <button
+          onClick={addPoolingLayer}
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#1a2235] hover:bg-[#243049] 
+                     text-white text-sm font-medium rounded-lg
+                     transition-all duration-200 ease-out
+                     border border-white/5 hover:border-white/10"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Add Pooling
+        </button>
+        <Tooltip
+          title="Pooling Layer"
+          type="Important"
+          explanation="Pooling layers reduce the spatial dimensions of the data (width and height), keeping the most important information while shrinking the size. This makes the network faster and helps prevent overfitting."
+          smaller="A smaller pool size (e.g. 2x2) is standard and preserves more spatial detail."
+          bigger="A larger pool size reduces dimensions more aggressively, which can lose fine detail."
+          recommendation="Place a Pooling layer after each Convolutional layer. Use Max Pooling with a 2x2 pool size — this is the standard for most CNN architectures."
           position="top"
         />
       </div>

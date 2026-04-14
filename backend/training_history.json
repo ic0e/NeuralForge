@@ -1,1 +1,31 @@
-[]
+[
+  {
+    "id": "7aaf95be-7102-45fb-b490-d7887152dc13",
+    "timestamp": "2026-04-14T10:02:31.168757",
+    "dataset": "MNIST",
+    "config": {
+      "epochs": 5,
+      "batchSize": 64,
+      "optimizer": "Adam",
+      "learningRate": 0.001,
+      "demoMode": true
+    },
+    "layers": 5,
+    "finalLoss": 1.4950771532058715,
+    "finalAccuracy": 0.9667,
+    "lossHistory": [
+      1.7700607305526734,
+      1.6088926704406739,
+      1.5502362085342407,
+      1.5042578742980957,
+      1.4950771532058715
+    ],
+    "accuracyHistory": [
+      0.8228,
+      0.8543,
+      0.952,
+      0.9515,
+      0.9667
+    ]
+  }
+]

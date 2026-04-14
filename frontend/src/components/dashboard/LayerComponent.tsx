@@ -20,6 +20,8 @@ export default function LayerComponent({
   activation,
   units,
   inputShape,
+  poolSize,
+  poolType,
   onRemove,
   onUpdate,
   onMove,
@@ -188,39 +190,93 @@ export default function LayerComponent({
           </div>
         )}
 
-        <div>
-          <div className="flex justify-between items-start">
-            <div className="flex items-center space-x-1">
-              <label className="block text-xs font-medium text-gray-400">
-                Activation Function
-              </label>
-              <Tooltip
-                title="Activation Function (The Decision Maker)"
-                type="Core Component"
-                explanation="The activation function lives inside every neuron and decides whether that neuron should 'fire' and pass its information to the next layer. It's like turning the neuron 'on' or 'off.' Without it, the network could only learn straight lines and simple patterns."
-                smaller="Using a simple activation (like ReLU) makes the network fast and efficient for finding patterns in images."
-                bigger="Using a complex activation (like Sigmoid or Tanh) can sometimes slow down learning in very deep networks, but is necessary for specific tasks like predicting probabilities."
-                recommendation="Start with ReLU. It is the most common and best choice for most hidden layers in modern neural networks."
-                position="right"
+        {type === 'Pooling' && (
+          <>
+            <div>
+              <div className="flex items-center space-x-1">
+                <label className="block text-xs font-medium text-gray-400">
+                  Pool Size
+                </label>
+                <Tooltip
+                  title="Pool Size"
+                  type="Hyperparameter"
+                  explanation="The size of the pooling window. A 2x2 window looks at 4 pixels at a time and keeps the most important one (Max) or their average (Average). This halves the width and height of the data."
+                  smaller="A smaller pool size preserves more spatial information."
+                  bigger="A larger pool size reduces dimensions more aggressively."
+                  recommendation="Use 2 (2x2 window). This is the standard for nearly all CNN architectures."
+                  position="right"
+                />
+              </div>
+              <input
+                type="number"
+                value={poolSize || ''}
+                onChange={(e) => handleNumberInputChange('poolSize', e.target.value)}
+                className="black-purple-hover"
+                min="2"
               />
             </div>
+            <div>
+              <div className="flex items-center space-x-1">
+                <label className="block text-xs font-medium text-gray-400">
+                  Pool Type
+                </label>
+                <Tooltip
+                  title="Pool Type"
+                  type="Hyperparameter"
+                  explanation="Max Pooling keeps the largest value in each window, preserving the strongest features. Average Pooling takes the mean, which smooths the output."
+                  smaller=""
+                  bigger=""
+                  recommendation="Use Max Pooling for most image classification tasks. It preserves the most prominent features."
+                  position="right"
+                />
+              </div>
+              <select
+                value={poolType || 'Max'}
+                onChange={(e) => handleInputChange('poolType', e.target.value)}
+                className="black-purple-hover"
+              >
+                <option value="Max">Max Pooling</option>
+                <option value="Average">Average Pooling</option>
+              </select>
+            </div>
+          </>
+        )}
+
+        {type !== 'Pooling' && (
+          <div>
+            <div className="flex justify-between items-start">
+              <div className="flex items-center space-x-1">
+                <label className="block text-xs font-medium text-gray-400">
+                  Activation Function
+                </label>
+                <Tooltip
+                  title="Activation Function (The Decision Maker)"
+                  type="Core Component"
+                  explanation="The activation function lives inside every neuron and decides whether that neuron should 'fire' and pass its information to the next layer. It's like turning the neuron 'on' or 'off.' Without it, the network could only learn straight lines and simple patterns."
+                  smaller="Using a simple activation (like ReLU) makes the network fast and efficient for finding patterns in images."
+                  bigger="Using a complex activation (like Sigmoid or Tanh) can sometimes slow down learning in very deep networks, but is necessary for specific tasks like predicting probabilities."
+                  recommendation="Start with ReLU. It is the most common and best choice for most hidden layers in modern neural networks."
+                  position="right"
+                />
+              </div>
+            </div>
+            <select
+              value={displayActivation}
+              onChange={(e) => {
+                const newValue = e.target.value === '' ? undefined : e.target.value;
+                //@ts-ignore
+                handleInputChange('activation', newValue);
+              }}
+              className="black-purple-hover"
+            >
+              <option value="">None</option>
+              <option value="ReLU">ReLU</option>
+              <option value="Sigmoid">Sigmoid</option>
+              <option value="Tanh">Tanh</option>
+              <option value="Softmax">Softmax</option>
+            </select>
           </div>
-          <select
-            value={displayActivation}
-            onChange={(e) => {
-              const newValue = e.target.value === '' ? undefined : e.target.value;
-              //@ts-ignore
-              handleInputChange('activation', newValue);
-            }}
-            className="black-purple-hover"
-          >
-            <option value="">None</option>
-            <option value="ReLU">ReLU</option>
-            <option value="Sigmoid">Sigmoid</option>
-            <option value="Tanh">Tanh</option>
-            <option value="Softmax">Softmax</option>
-          </select>
-        </div>
+        )}
       </div>
     </div>
   );
