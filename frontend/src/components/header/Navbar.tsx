@@ -96,7 +96,6 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             >
               Dashboard
             </a>
-            {/*
             <a
               className={`px-3 py-1.5 rounded-lg text-sm font-medium
                          transition-all duration-300 ease-out
@@ -108,8 +107,6 @@ function Navbar({ onNavigate, currentPage }: NavbarProps) {
             >
               Forum
             </a>
-            forum navbar page, WIP not ready for usage yet
-            */}
             {userRole === 'admin' && (
               <a
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium
