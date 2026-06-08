@@ -1,2 +1,7 @@
 # exclude the temp cache files
 temp_extracted/*
+
+# Python / ML artifacts
+*.pth
+__pycache__/
+*.pyc
