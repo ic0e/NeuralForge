@@ -67,7 +67,7 @@ If the optional frontend environment variables are configured, the platform unlo
 - **CUDA** (optional, for GPU acceleration)
 - **Firebase API key** (optional, for saving user data)
 
-### Enviornment setup
+### Environment setup
 If you wish to use the cloud storage features, create a `.env` file inside the `frontend/` directory and populate it with your Firebase project credentials:
 
 ```env
